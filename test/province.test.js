@@ -28,4 +28,18 @@ describe("POST /api/provinces", function () {
     expect(result.body.data.island).toBe("test");
     expect(result.body.data.population).toBe(10101);
   });
+
+  it("Should reject if request is invalid", async () => {
+    const result = await supertest(web).post("/api/provinces").send({
+      name: "",
+      code: "test",
+      capital: "",
+      image: "test",
+      island: "",
+      population: 10101,
+    });
+
+    logger.info(result.body);
+    expect(result.status).toBe(400);
+  });
 });
