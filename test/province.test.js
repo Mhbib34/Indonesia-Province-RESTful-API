@@ -102,3 +102,68 @@ describe("GET /api/provinces", function () {
     expect(result.status).toBe(200);
   });
 });
+
+describe("PUT /api/provinces/:provincesId", function () {
+  beforeEach(async () => {
+    await createTestProvince();
+  });
+
+  afterEach(async () => {
+    await removeTestProvince();
+  });
+
+  it("Should can update provinces", async () => {
+    const testProvinces = await getTestProvinces();
+    const result = await supertest(web)
+      .put(`/api/provinces/${testProvinces.id}`)
+      .send({
+        name: "test baru",
+        code: "test baru",
+        capital: "test baru",
+        image: "test baru",
+        island: "test baru",
+        population: 5000,
+      });
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.id).toBe(testProvinces.id);
+    expect(result.body.data.name).toBe("test baru");
+    expect(result.body.data.code).toBe("test baru");
+    expect(result.body.data.capital).toBe("test baru");
+    expect(result.body.data.image).toBe("test baru");
+    expect(result.body.data.island).toBe("test baru");
+    expect(result.body.data.population).toBe(5000);
+  });
+
+  it("Should reject if request is invalid", async () => {
+    const testProvinces = await getTestProvinces();
+    const result = await supertest(web)
+      .put(`/api/provinces/${testProvinces.id}`)
+      .send({
+        name: "",
+        code: "test baru",
+        capital: "test baru",
+        image: "test baru",
+        island: "test baru",
+        population: 5000,
+      });
+
+    expect(result.status).toBe(400);
+  });
+
+  it("Should reject if provinces id is not found", async () => {
+    const testProvinces = await getTestProvinces();
+    const result = await supertest(web)
+      .put(`/api/provinces/${testProvinces.id + 1}`)
+      .send({
+        name: "test baru",
+        code: "test baru",
+        capital: "test baru",
+        image: "test baru",
+        island: "test baru",
+        population: 5000,
+      });
+
+    expect(result.status).toBe(404);
+  });
+});

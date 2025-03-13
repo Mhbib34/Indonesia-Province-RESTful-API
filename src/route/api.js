@@ -6,5 +6,6 @@ const provinceRouter = new express.Router();
 provinceRouter.post("/api/provinces", provincesController.create);
 provinceRouter.get("/api/provinces/:provincesId", provincesController.get);
 provinceRouter.get("/api/provinces", provincesController.list);
+provinceRouter.put("/api/provinces/:provincesId", provincesController.update);
 
 export default provinceRouter;

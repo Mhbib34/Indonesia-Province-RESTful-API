@@ -1,4 +1,4 @@
-import { create, get, list } from "../services/provinces-service.js";
+import { create, get, list, update } from "../services/provinces-service.js";
 
 const createProvinceHandler = async (req, res, next) => {
   try {
@@ -27,8 +27,21 @@ const getManyProvincesHandler = async (req, res, next) => {
   }
 };
 
+const updateProvincesHandler = async (req, res, next) => {
+  try {
+    const provincesId = req.params.provincesId;
+    const request = req.body;
+    request.id = provincesId;
+    const result = await update(provincesId, request);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   create: createProvinceHandler,
   get: getProvincesHandler,
   list: getManyProvincesHandler,
+  update: updateProvincesHandler,
 };

@@ -1,6 +1,7 @@
 import {
   createProvincesValidation,
   getProvincesValidation,
+  updateProvincesValidation,
 } from "../validation/provinces-validation.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
@@ -77,5 +78,48 @@ export const list = async () => {
   return {
     success: true,
     data: province,
+  };
+};
+
+export const update = async (provincesId, request) => {
+  provincesId = validate(getProvincesValidation, provincesId);
+  const provinces = validate(updateProvincesValidation, request);
+  const totalProvincesInDatabase = await prismaClient.provinces.count({
+    where: {
+      id: provincesId,
+    },
+  });
+
+  if (totalProvincesInDatabase !== 1) {
+    throw new ResponseError(404, "Provinces is not found");
+  }
+
+  const result = await prismaClient.provinces.update({
+    where: {
+      id: provincesId,
+    },
+    data: {
+      name: provinces.name,
+      code: provinces.code,
+      capital: provinces.capital,
+      image: provinces.image,
+      island: provinces.island,
+      population: provinces.population,
+    },
+    select: {
+      id: true,
+      name: true,
+      code: true,
+      capital: true,
+      image: true,
+      island: true,
+      population: true,
+    },
+  });
+
+  return {
+    success: true,
+    message: "Province updated successfully",
+    data: result,
   };
 };

@@ -11,3 +11,13 @@ export const createProvincesValidation = Joi.object({
 });
 
 export const getProvincesValidation = Joi.number().positive().required();
+
+export const updateProvincesValidation = Joi.object({
+  id: Joi.number().positive().required(),
+  name: Joi.string().max(100).required(),
+  code: Joi.string().max(20).optional(),
+  capital: Joi.string().max(100).optional(),
+  image: Joi.string().max(500).optional(),
+  island: Joi.string().max(50).optional(),
+  population: Joi.number().positive().optional(),
+});
