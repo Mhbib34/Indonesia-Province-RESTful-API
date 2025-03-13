@@ -73,4 +73,32 @@ describe("GET /api/provinces/:provincesId", function () {
     expect(result.body.data.island).toBe(testProvinces.island);
     expect(result.body.data.population).toBe(testProvinces.population);
   });
+
+  it("Should reject if id is not found", async () => {
+    const testProvinces = await getTestProvinces();
+    const result = await supertest(web).get(
+      `/api/provinces/${testProvinces.id + 1}`
+    );
+
+    logger.info(result.body);
+    expect(result.status).toBe(404);
+  });
+});
+
+describe("GET /api/provinces", function () {
+  beforeEach(async () => {
+    await createTestProvince();
+  });
+
+  afterEach(async () => {
+    await removeTestProvince();
+  });
+
+  it("Should can get all provinces", async () => {
+    const result = await supertest(web).get("/api/provinces");
+
+    console.log(result.body);
+
+    expect(result.status).toBe(200);
+  });
 });

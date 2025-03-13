@@ -1,4 +1,4 @@
-import { create, get } from "../services/provinces-service.js";
+import { create, get, list } from "../services/provinces-service.js";
 
 const createProvinceHandler = async (req, res, next) => {
   try {
@@ -18,7 +18,17 @@ const getProvincesHandler = async (req, res, next) => {
   }
 };
 
+const getManyProvincesHandler = async (req, res, next) => {
+  try {
+    const result = await list();
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   create: createProvinceHandler,
   get: getProvincesHandler,
+  list: getManyProvincesHandler,
 };

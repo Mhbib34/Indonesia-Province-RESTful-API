@@ -60,3 +60,22 @@ export const get = async (provincesId) => {
     data: province,
   };
 };
+
+export const list = async () => {
+  const province = await prismaClient.provinces.findMany({
+    select: {
+      id: true,
+      name: true,
+      code: true,
+      capital: true,
+      image: true,
+    },
+  });
+  if (province.length === 0) {
+    throw new ResponseError(404, "Provinces Not Found");
+  }
+  return {
+    success: true,
+    data: province,
+  };
+};
