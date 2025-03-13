@@ -1,4 +1,7 @@
-import { createProvincesValidation } from "../validation/provinces-validation.js";
+import {
+  createProvincesValidation,
+  getProvincesValidation,
+} from "../validation/provinces-validation.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
 import validate from "../validation/validation.js";
@@ -30,5 +33,30 @@ export const create = async (request) => {
     success: true,
     message: "Province added successfully",
     data: newProvince,
+  };
+};
+
+export const get = async (provincesId) => {
+  provincesId = validate(getProvincesValidation, provincesId);
+  const province = await prismaClient.provinces.findFirst({
+    where: {
+      id: provincesId,
+    },
+    select: {
+      id: true,
+      name: true,
+      code: true,
+      capital: true,
+      image: true,
+      island: true,
+      population: true,
+    },
+  });
+  if (!province) {
+    throw new ResponseError(404, "Provinces Not Found");
+  }
+  return {
+    success: true,
+    data: province,
   };
 };

@@ -1,5 +1,9 @@
 import supertest from "supertest";
-import { createTestProvince, removeTestProvince } from "./test.util.js";
+import {
+  createTestProvince,
+  getTestProvinces,
+  removeTestProvince,
+} from "./test.util.js";
 import { web } from "../src/application/web.js";
 import { logger } from "../src/application/logging.js";
 
@@ -41,5 +45,32 @@ describe("POST /api/provinces", function () {
 
     logger.info(result.body);
     expect(result.status).toBe(400);
+  });
+});
+
+describe("GET /api/provinces/:provincesId", function () {
+  beforeEach(async () => {
+    await createTestProvince();
+  });
+
+  afterEach(async () => {
+    await removeTestProvince();
+  });
+
+  it("Should can get provinces", async () => {
+    const testProvinces = await getTestProvinces();
+    const result = await supertest(web).get(
+      `/api/provinces/${testProvinces.id}`
+    );
+
+    logger.info(result.body);
+    expect(result.status).toBe(200);
+    expect(result.body.data.id).toBe(testProvinces.id);
+    expect(result.body.data.name).toBe(testProvinces.name);
+    expect(result.body.data.code).toBe(testProvinces.code);
+    expect(result.body.data.capital).toBe(testProvinces.capital);
+    expect(result.body.data.image).toBe(testProvinces.image);
+    expect(result.body.data.island).toBe(testProvinces.island);
+    expect(result.body.data.population).toBe(testProvinces.population);
   });
 });

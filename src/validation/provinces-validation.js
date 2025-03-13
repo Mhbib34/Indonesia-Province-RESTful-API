@@ -9,3 +9,5 @@ export const createProvincesValidation = Joi.object({
   island: Joi.string().max(50).required(),
   population: Joi.number().positive().optional(),
 });
+
+export const getProvincesValidation = Joi.number().positive().required();

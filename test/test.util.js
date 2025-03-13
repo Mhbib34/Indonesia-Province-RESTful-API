@@ -20,3 +20,11 @@ export const createTestProvince = async () => {
     },
   });
 };
+
+export const getTestProvinces = async () => {
+  return prismaClient.provinces.findFirst({
+    where: {
+      name: "test",
+    },
+  });
+};
