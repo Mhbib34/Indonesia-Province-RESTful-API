@@ -7,6 +7,13 @@ export const removeTestProvince = async () => {
     },
   });
 };
+export const removeTestUpdateProvince = async () => {
+  await prismaClient.provinces.deleteMany({
+    where: {
+      name: "test baru",
+    },
+  });
+};
 
 export const createTestProvince = async () => {
   await prismaClient.provinces.create({

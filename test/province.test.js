@@ -3,6 +3,7 @@ import {
   createTestProvince,
   getTestProvinces,
   removeTestProvince,
+  removeTestUpdateProvince,
 } from "./test.util.js";
 import { web } from "../src/application/web.js";
 import { logger } from "../src/application/logging.js";
@@ -110,6 +111,7 @@ describe("PUT /api/provinces/:provincesId", function () {
 
   afterEach(async () => {
     await removeTestProvince();
+    await removeTestUpdateProvince();
   });
 
   it("Should can update provinces", async () => {
