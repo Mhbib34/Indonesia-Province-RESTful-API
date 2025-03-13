@@ -13,7 +13,7 @@ export const create = async (request) => {
   if (countProvince === 1) {
     throw new ResponseError(400, "Province Name Already Exist");
   }
-  return prismaClient.provinces.create({
+  const newProvince = await prismaClient.provinces.create({
     data: province,
     select: {
       id: true,
@@ -25,4 +25,10 @@ export const create = async (request) => {
       population: true,
     },
   });
+
+  return {
+    success: true,
+    message: "Province added successfully",
+    data: newProvince,
+  };
 };
