@@ -187,4 +187,13 @@ describe("DELETE /api/provinces/:provincesId", function () {
 
     expect(result.status).toBe(200);
   });
+
+  it("should reject if id is not found", async () => {
+    const testProvinces = await getTestProvinces();
+    const result = await supertest(web).delete(
+      `/api/provinces/${testProvinces.id + 1}`
+    );
+
+    expect(result.status).toBe(404);
+  });
 });
