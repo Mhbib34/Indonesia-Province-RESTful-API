@@ -7,5 +7,9 @@ provinceRouter.post("/api/provinces", provincesController.create);
 provinceRouter.get("/api/provinces/:provincesId", provincesController.get);
 provinceRouter.get("/api/provinces", provincesController.list);
 provinceRouter.put("/api/provinces/:provincesId", provincesController.update);
+provinceRouter.delete(
+  "/api/provinces/:provincesId",
+  provincesController.remove
+);
 
 export default provinceRouter;

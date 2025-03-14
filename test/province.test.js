@@ -169,3 +169,22 @@ describe("PUT /api/provinces/:provincesId", function () {
     expect(result.status).toBe(404);
   });
 });
+
+describe("DELETE /api/provinces/:provincesId", function () {
+  beforeEach(async () => {
+    await createTestProvince();
+  });
+
+  afterEach(async () => {
+    await removeTestProvince();
+  });
+
+  it("should can remove provinces", async () => {
+    const testProvinces = await getTestProvinces();
+    const result = await supertest(web).delete(
+      `/api/provinces/${testProvinces.id}`
+    );
+
+    expect(result.status).toBe(200);
+  });
+});

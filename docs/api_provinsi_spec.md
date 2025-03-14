@@ -148,12 +148,10 @@ API ini menyediakan daftar provinsi di Indonesia, termasuk informasi seperti nam
 model Province {
   id          Int    @id @default(autoincrement())
   name        String
-  code        String @unique
+  code        String?
   capital     String
-  image       String
+  image       String?
   island      String
-  pupulation  Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  pupulation  Int?
 }
 ```

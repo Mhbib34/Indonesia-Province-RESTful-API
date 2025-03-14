@@ -123,3 +123,27 @@ export const update = async (provincesId, request) => {
     data: result,
   };
 };
+
+export const remove = async (provincesId) => {
+  provincesId = validate(getProvincesValidation, provincesId);
+  const totalProvincesInDatabase = await prismaClient.provinces.count({
+    where: {
+      id: provincesId,
+    },
+  });
+
+  if (totalProvincesInDatabase !== 1) {
+    throw new ResponseError(404, "Provinces is not found");
+  }
+
+  const result = await prismaClient.provinces.delete({
+    where: {
+      id: provincesId,
+    },
+  });
+
+  return {
+    success: true,
+    message: "Province delete successfully",
+  };
+};
